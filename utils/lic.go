@@ -78,7 +78,7 @@ func ValidAppLic(appInfoFile, key string) {
 	tmpText = AesDecrypt(tmpText, key)
 	conf := AppLicenseInfo{}
 	for {
-		fmt.Println("授权文件检查")
+		//fmt.Println("授权文件检查")
 		if err := json.Unmarshal([]byte(tmpText), &conf); err == nil {
 
 			//获取本机的ID
