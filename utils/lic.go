@@ -35,32 +35,30 @@ func EncryptLic(appInfoFile, key string) {
 		panic(err)
 	}
 	conf := AppLicenseInfo{}
-	for {
-		if err := json.Unmarshal(contentByte, &conf); err == nil {
-			tmpText := string(contentByte)
-			//进行加密
-			tmpText = AesEncrypt(tmpText, key)
+	if err := json.Unmarshal(contentByte, &conf); err == nil {
+		tmpText := string(contentByte)
+		//进行加密
+		tmpText = AesEncrypt(tmpText, key)
 
-			//生成license授权文件
-			currentDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-			if err != nil {
-				log.Fatal(err)
-			}
-			lic_file_path := currentDir + string(os.PathSeparator) + "license"
-			log.Println(lic_file_path)
-			lic_file_path = "license"
-			dstFile, err := os.Create(lic_file_path)
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			dstFile.WriteString(tmpText)
-			dstFile.Close()
-		} else {
-			fmt.Println(err)
+		//生成license授权文件
+		currentDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+		if err != nil {
+			log.Fatal(err)
 		}
-		time.Sleep(1 * time.Minute)
+		lic_file_path := currentDir + string(os.PathSeparator) + "license"
+		log.Println(lic_file_path)
+		lic_file_path = "license"
+		dstFile, err := os.Create(lic_file_path)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		dstFile.WriteString(tmpText)
+		dstFile.Close()
+	} else {
+		fmt.Println(err)
 	}
+
 }
 
 func ValidAppLic(appInfoFile, key string) {
