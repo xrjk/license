@@ -27,12 +27,14 @@ func EncryptLic(appInfoFile, key string) {
 	//从文件中读取配置
 	file, err := os.OpenFile(appInfoFile, os.O_RDONLY, 0777)
 	if err != nil {
-		panic(err)
+		log.Print("[警告] 授权文件不存在，请联系客服!!!")
+		os.Exit(0)
 	}
 	defer file.Close()
 	contentByte, err2 := ioutil.ReadAll(file)
 	if err2 != nil {
-		panic(err)
+		log.Print("[警告] 授权文件读取错误，请联系客服!!!")
+		os.Exit(0)
 	}
 	conf := AppLicenseInfo{}
 	if err := json.Unmarshal(contentByte, &conf); err == nil {
